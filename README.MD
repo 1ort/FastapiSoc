@@ -13,7 +13,7 @@ Implemented:
 
 ## Database
 
-The application has been tested and developed with the SQLite database, but since the sqlalchemy is used, you can specify the url for MYSQL, PostgreSQL and other relational databases.
+The application has been tested and developed with the SQLite database, but since the sqlalchemy is used, you can specify the url for MYSQL, PostgreSQL and other relational databases id docker-compose.yml
 
 
 ## Installation
