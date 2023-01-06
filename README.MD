@@ -11,6 +11,11 @@ Implemented:
 
 - Each endpoint is documented and contributes to the overall open-api scheme
 
+## Database
+
+The application has been tested and developed with the SQLite database, but since the sqlalchemy is used, you can specify the url for MYSQL, PostgreSQL and other relational databases.
+
+
 ## Installation
 It is assumed that you already have git and docker installed.
 
@@ -44,3 +49,6 @@ And then put it in a docker-compose.yml file
 environment:
       - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
 ```
+
+Alternative ways to transfer the private key to the application are here: https://docs.docker.com/compose/environment-variables/
+
