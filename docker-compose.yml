@@ -2,9 +2,9 @@ version: '3'
 services:
   web:
     build: .
-    command: uvicorn src.main:app --host 0.0.0.0 --port 80
+    command: uvicorn simplesocial.main:app --host 0.0.0.0 --port 80
     volumes:
-      - .:/app
+      - .:/simplesocial
     ports:
       - "8000:80"
     environment:
@@ -14,4 +14,4 @@ services:
 
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-      - DATABASE_URL=sqlite:////app/app.db
+      - DATABASE_URL=sqlite:////simplesocial/app.db
