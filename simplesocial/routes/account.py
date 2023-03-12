@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from .. import dependencies as deps
-from .. import schemas
-from .. import crud
-from .. import security as sec
+
+from simplesocial import crud
+from simplesocial import dependencies as deps
+from simplesocial import schemas
+from simplesocial import security as sec
 
 router = APIRouter(
     tags=["account"],
@@ -29,7 +30,7 @@ signup_router = APIRouter(
         },
     },
 )
-def sign_up(user: schemas.UserCredentials, db=Depends(deps.get_db)):
+async def sign_up(user: schemas.UserCredentials, db=Depends(deps.get_db)):
     """Register a new account"""
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user:
@@ -45,7 +46,7 @@ def sign_up(user: schemas.UserCredentials, db=Depends(deps.get_db)):
     "/token/",
     response_model=schemas.Token,
 )
-def login_for_JWT_from_JSON(
+async def login_for_JWT_from_JSON(
     user: schemas.User = Depends(deps.authenticate_user),
 ):
     """
@@ -60,7 +61,7 @@ def login_for_JWT_from_JSON(
     "/tokenform/",
     response_model=schemas.Token,
 )
-def login_for_JWT_from_FORM(
+async def login_for_JWT_from_FORM(
     user: schemas.User = Depends(deps.authenticate_user_from_OAuth2),
 ):
     """
@@ -75,7 +76,7 @@ def login_for_JWT_from_FORM(
     "/edit/",
     response_model=schemas.User,
 )
-def update_credentials(
+async def update_credentials(
     new_credentials: schemas.UserCredentials,
     db=Depends(deps.get_db),
     user: schemas.User = Depends(deps.authenticate_user),
@@ -89,7 +90,7 @@ def update_credentials(
     "/delete/",
     response_model=schemas.Success,
 )
-def delete_account(
+async def delete_account(
     db=Depends(deps.get_db),
     user: schemas.User = Depends(deps.authenticate_user),
 ):
@@ -108,7 +109,7 @@ def delete_account(
         },
     },
 )
-def get_current_user(
+async def get_current_user(
     db=Depends(deps.get_db), current_user=Depends(deps.get_current_user)
 ):
     """Your user profile"""

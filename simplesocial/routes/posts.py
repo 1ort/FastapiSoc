@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from .. import dependencies as deps
-from .. import schemas
-from .. import crud
-from .. import models
 
+from simplesocial import crud
+from simplesocial import dependencies as deps
+from simplesocial import models, schemas
 
 manage_post_router = APIRouter(
     tags=["posts"],
@@ -31,7 +30,7 @@ router = APIRouter(tags=["posts"])
     "/",
     response_model=list[schemas.Post],
 )
-def post_feed(
+async def post_feed(
     pagination_params=Depends(schemas.PaginationParams), db=Depends(deps.get_db)
 ):
     """Get posts"""
@@ -51,7 +50,7 @@ def post_feed(
         },
     },
 )
-def get_single_post(post=Depends(deps.get_post_by_id), db=Depends(deps.get_db)):
+async def get_single_post(post=Depends(deps.get_post_by_id), db=Depends(deps.get_db)):
     """Get single post by id"""
     return post
 
@@ -66,7 +65,7 @@ def get_single_post(post=Depends(deps.get_post_by_id), db=Depends(deps.get_db)):
         },
     },
 )
-def new_post(
+async def new_post(
     content: schemas.NewPost,
     db=Depends(deps.get_db),
     current_user=Depends(deps.get_current_user),
@@ -80,7 +79,7 @@ def new_post(
     "/{post_id}/",
     response_model=schemas.Post,
 )
-def edit_post(
+async def edit_post(
     content: schemas.NewPost,
     post=Depends(deps.get_post_by_id),
     db=Depends(deps.get_db),
@@ -100,7 +99,7 @@ def edit_post(
     "/{post_id}/",
     response_model=schemas.Success,
 )
-def delete_post(
+async def delete_post(
     post=Depends(deps.get_post_by_id),
     db=Depends(deps.get_db),
     current_user=Depends(deps.get_current_user),
@@ -120,7 +119,7 @@ def delete_post(
     response_model=schemas.Success,
     tags=["reactions"],
 )
-def like_post(
+async def like_post(
     post: models.Post = Depends(deps.get_post_by_id),
     db=Depends(deps.get_db),
     current_user=Depends(deps.get_current_user),
@@ -149,7 +148,7 @@ def like_post(
     response_model=schemas.Success,
     tags=["reactions"],
 )
-def dislike_post(
+async def dislike_post(
     post=Depends(deps.get_post_by_id),
     db=Depends(deps.get_db),
     current_user=Depends(deps.get_current_user),
@@ -178,7 +177,7 @@ def dislike_post(
     response_model=schemas.Success,
     tags=["reactions"],
 )
-def remove_reaction(
+async def remove_reaction(
     post=Depends(deps.get_post_by_id),
     db=Depends(deps.get_db),
     current_user=Depends(deps.get_current_user),

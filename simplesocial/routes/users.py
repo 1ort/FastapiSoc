@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from .. import dependencies as deps
-from .. import schemas
-from .. import crud
+
+from simplesocial import crud
+from simplesocial import dependencies as deps
+from simplesocial import schemas
 
 router = APIRouter(
     tags=["users"],
@@ -9,7 +10,7 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[schemas.User])
-def list_users(
+async def list_users(
     pagination_params=Depends(schemas.PaginationParams), db=Depends(deps.get_db)
 ):
     """Get users"""
@@ -29,7 +30,7 @@ def list_users(
         },
     },
 )
-def get_user(user_id: int, db=Depends(deps.get_db)):
+async def get_user(user_id: int, db=Depends(deps.get_db)):
     """Get user by id"""
     db_user = crud.get_user(db, user_id=user_id)
     if db_user is None:
