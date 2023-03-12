@@ -16,6 +16,9 @@ uvicorn = "0.20.0"
 python-multipart = "^0.0.6"
 
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
